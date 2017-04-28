@@ -10,7 +10,6 @@ struct KalmanFilter {
   Eigen::MatrixXd P_;
 
   /**
-  * Constructor
   * @param state_len Expected length of the state vector x
   */
   KalmanFilter(int state_len);

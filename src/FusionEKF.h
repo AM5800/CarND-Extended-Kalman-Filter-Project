@@ -10,9 +10,6 @@
 #include "tools.h"
 
 struct FusionEKF {
-  /**
-  * Constructor.
-  */
   FusionEKF();
 
   /**
@@ -37,6 +34,10 @@ private:
   Eigen::MatrixXd H_laser_;
   Eigen::MatrixXd Hj_;
   Eigen::MatrixXd Qu_;
+
+  void InitializeIfNeeded(const MeasurementPackage &measurement_pack);
+  void Predict(const MeasurementPackage &measurement_pack);
+  void Update(const MeasurementPackage &measurement_pack);
 };
 
 #endif /* FusionEKF_H_ */
