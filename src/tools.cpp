@@ -7,7 +7,7 @@ using std::vector;
 VectorXd Tools::CalculateRMSE(const vector<VectorXd>& estimations,
                               const vector<VectorXd>& ground_truth) {
   if (estimations.size() != ground_truth.size() || estimations.size() == 0)
-    throw std::exception("Estimation and Ground Truth size mismatch");
+    throw std::runtime_error("Estimation and Ground Truth size mismatch");
 
   VectorXd sum = VectorXd::Zero(estimations.front().rows());
 
@@ -29,7 +29,7 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   double vy = x_state(3);
 
   double px_py = px * px + py * py;
-  if (fabs(px_py) < 0.00001) throw std::exception("Division by zero!");
+  if (fabs(px_py) < 0.00001) throw std::runtime_error("Division by zero!");
 
   double sqrt_px_py = sqrt(px_py);
 
