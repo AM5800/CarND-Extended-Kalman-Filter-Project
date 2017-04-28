@@ -1,22 +1,17 @@
-#include <iostream>
 #include "tools.h"
 
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
 using std::vector;
 
-Tools::Tools() {}
-
-Tools::~Tools() {}
-
-VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
-                              const vector<VectorXd> &ground_truth) {
+VectorXd Tools::CalculateRMSE(const vector<VectorXd>& estimations,
+                              const vector<VectorXd>& ground_truth) {
   if (estimations.size() != ground_truth.size() || estimations.size() == 0)
     throw std::exception("Estimation and Ground Truth size mismatch");
 
   VectorXd sum = VectorXd::Zero(estimations.front().rows());
-  
-  for (int i = 0; i < estimations.size(); ++i) {
+
+  for (size_t i = 0; i < estimations.size(); ++i) {
     VectorXd residual = ground_truth[i] - estimations[i];
     VectorXd residual_squared = residual.array() * residual.array();
     sum += residual_squared;
@@ -26,7 +21,7 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
 }
 
 MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
-  MatrixXd result(3, 4);
+  MatrixXd result = MatrixXd::Zero(3, 4);
 
   double px = x_state(0);
   double py = x_state(1);
@@ -40,14 +35,10 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
 
   result(0, 0) = px / sqrt_px_py;
   result(0, 1) = py / sqrt_px_py;
-  result(0, 2) = 0;
-  result(0, 3) = 0;
   result(1, 0) = -py / px_py;
   result(1, 1) = px / px_py;
-  result(1, 2) = 0;
-  result(1, 3) = 0;
-  result(2, 0) = py * (vx * py - vy*px) / (sqrt_px_py * px_py);
-  result(2, 1) = px * (vy*px - vx*py) / (sqrt_px_py * px_py);
+  result(2, 0) = py * (vx * py - vy * px) / (sqrt_px_py * px_py);
+  result(2, 1) = px * (vy * px - vx * py) / (sqrt_px_py * px_py);
   result(2, 2) = px / sqrt_px_py;
   result(2, 3) = py / sqrt_px_py;
 

@@ -9,17 +9,11 @@
 #include "kalman_filter.h"
 #include "tools.h"
 
-class FusionEKF {
-public:
+struct FusionEKF {
   /**
   * Constructor.
   */
   FusionEKF();
-
-  /**
-  * Destructor.
-  */
-  virtual ~FusionEKF();
 
   /**
   * Run the whole flow of the Kalman Filter from here.
@@ -38,8 +32,6 @@ private:
   // previous timestamp
   long long previous_timestamp_;
 
-  // tool object used to compute Jacobian and RMSE
-  Tools tools;
   Eigen::MatrixXd R_laser_;
   Eigen::MatrixXd R_radar_;
   Eigen::MatrixXd H_laser_;
