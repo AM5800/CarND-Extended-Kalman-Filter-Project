@@ -46,5 +46,7 @@ VectorXd h(const VectorXd & x) {
 
 void KalmanFilter::UpdateEKF(const VectorXd &z) {
   VectorXd y = z - h(x_);
+  while (y(1) > M_PI) y(1) -= 2 * M_PI;
+  while (y(1) < -M_PI) y(1) += 2 * M_PI;
   UpdateCommon(y);
 }
